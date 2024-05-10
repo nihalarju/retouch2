@@ -1,0 +1,312 @@
+
+Skip to Main content
+Elsevier logo
+
+    Journals & Books
+
+Gate Induced Drain Leakage
+
+The occurrence of GIDL is observed in the subthreshold characteristics as increase in IDsub at lower VGS.
+
+From: Encyclopedia of Materials: Science and Technology, 2001
+Add to Mendeley
+Contents
+
+    Definition
+    Chapters and Articles
+    Related Terms
+    Recommended Publications
+
+Chapters and Articles
+Leakage currents
+
+In FinFET Modeling for IC Simulation and Design, 2015
+5.2 Gate-Induced Source and Drain Leakages
+
+Figure 5.3 illustrates the cross-section of an n-channel, double-gate FinFET and its energy-band diagram for the gate-drain overlap region when a low gate voltage and a high drain voltage are applied. If the band bending at the oxide interface is greater than or equal to the energy band gap Eg of the drain material, band-to-band tunneling will take place. The electrons in the valence band of the n-type drain will tunnel through the thinned band gap into the conduction band, and they will be collected at the drain contact to be a part of the drain current, whereas the reaming holes will be collected at the substrate contact (the source contact in the case of a FinFET on an SOI substrate) and will contribute to the substrate (source) leakage. This phenomenon, which was first elucidated and modeled by researchers at the University of California, Berkeley [4], discerns a potential major contributor to the off-state leakage current (see Figure 5.4) and is called the gate-induced drain leakage (GIDL) current. Depending on the voltages applied, there might also exist a gate-induced source leakage (GISL) current.
+Sign in to download full-size image
+
+Figure 5.3. (a) Cross-section of the fin of a FinFET, and (b) illustration of the energy-band diagram along the dashed line in (a). The substrate contact is normal to and below the page.
+Sign in to download full-size image
+
+Figure 5.4. Contributions of DIBL and GIDL to the transistor’s off-state leakage current. The position of the dip caused by GIDL will vary around Vgs = 0 depending on Vdd, the channel material, doping, and trap density.
+
+But what are the prerequisites for the GIDL current to flow? First, there must be band bending greater than Eg so that the valence band energy states overlap the conduction band energy states as shown in Figure 5.3. In that case the semiconductor surface in the gate-drain overlap region is in deep depletion, with the band bending being much larger than 2φB.3
+
+The surface potential can exceed 2φB because there is no inversion hole layer at the surface. There is no hole layer at the surface because any hole there would drift and diffuse to the body/substrate because of the built-in junction potential plus any substrate-drain reverse bias. However, with a forward-biased substrate-drain junction, the holes may remain at the interface and form an inversion layer and cause the band bending to be pinned at roughly 2φB, a value smaller than Eg, thereby suppressing the GIDL current. In the case of a FinFET on an SOI substrate, holes build up in the floating body and raise the body potential until the body-source junction is slightly forward biased, enabling the GIDL-generated holes to be injected into the n+ source. Second, the electric field needs to be large; that is, the tunneling barrier needs to be narrow. Compared with a planar MOSFET, both of these conditions are more difficult to meet in a FinFET because the potential at both sides of the thin fin is raised or lowered by the same Vg. Therefore, lightly doped and very thin fin FinFETs can have negligible GIDL. Try to convince yourself of this by looking at Figure 5.3 and remember the Poisson equation.
+
+In addition, defects or traps in tunneling lead to trap-assisted band-to-band tunneling by providing stepping stones along the tunneling path; therefore, GIDL current is larger in the presence of defects created by ion implantation. Use of solid-source diffusion instead of implantation for drain creation or use of a laser for activation of dopants and annealing has been shown to reduce GIDL [5, Chapter 3].
+5.2.1 GIDL/GISL Current Formulation in BSIM-CMG
+
+The band-to-band tunneling current density from the Wentzel-Kramers-Brillouin (WKB) approximation is given by
+(5.1)J=A×Es×e−B/Es,
+
+where A is a preexponential constant related to the density of states of both the emitting side and the receiving side, B is a physical exponential parameter which depends on Eg and the carrier’s effective mass in the tunneling direction (approximately 20 MV/cm for silicon), and Es is the surface electric field in the drain. With use of Gauss’s law at the onset of GIDL, when the band bending in the drain is equal to Eg, Es is given by
+(5.2)Es=Vds−Vgs+Vfbsd−Egϵratio×EOT,
+
+where Vfbsd is the flat-band voltage between the gate and the drain, ϵratio is the ratio of the dielectric constant of the substrate material EPSRSUB over that of silicon dioxide, and EOT is the equivalent oxide thickness. Equations (5.1) and 5.2 lead to the following equation for the GIDL current in BSIM-CMG:
+(5.3)Igidl0=NFINtotal×Weff×AGIDL×Vdg+Vfbsd−EGIDLϵratio×EOTPGIDL×e−ϵratio×EOT×BGIDL/Vdg+Vfbsd−EGIDL
+
+where the constants A and B in Equation (5.1) and Eg in Equation (5.2) have been replaced by the model parameters AGIDL and BGIDL, and EGIDL, respectively, and PGIDL has been introduced for more flexibility in fitting the measured data.
+
+The GISL current is calculated in the same manner:
+(5.4)Igisl0=NFINtotal×Weff×AGISL×Vsg+Vfbsd−EGISLϵratio×EOTPGISL×e−ϵratio×EOT×BGISL/Vsg+Vfbsd−EGISL
+
+In addition to the Vdg dependence present in Equation (5.3), in bulk FinFETs (BULKMOD ≠ 0), the GIDL current is also affected by the substrate bias for small values of Vde (the drain to substrate voltage) as the deep depletion condition in the drain surface starts to fail. The total GIDL current is obtained by multiplying Igidl0 from Equation (5.3) by an empirical factor for modeling the low Vde effect as follows:
+(5.5)Igidl=Igidl0×Vde3CGIDL+Vde3Vde≥00Vde<0
+
+In Equation (5.5), CGIDL is a non-negative fitting parameter. A similar equation holds for the GISL current:
+(5.6)Igisl=Igisl0×Vse3CGISL+Vse3Vse>00Vse≤0
+
+For a FinFET on an SOI substrate (BULKMOD = 0), Igidl0 and Igisl0 are multiplied by Vds and Vsd, respectively. These terms are negligible in comparison with the exponential terms proceeding them, but will guarantee that no GIDL or GISL current is flowing when the drain and source are at the same voltage.
+Metal Oxide–Semiconductor Field Effect Transistors
+
+S.K. Kurinec, in Encyclopedia of Materials: Science and Technology, 2001
+6.6 Gate-induced Drain Leakage
+
+The tunneling-based leakage currents caused where the gate overlaps the drain is referred to as the gate-induced drain leakage (GIDL). Under the application of strong vertical and longitudinal fields, the drain region in the overlap region may go into deep depletion as the vertical field tends to invert the region and the longitudinal field sweeps the inverted carriers (holes for n-channel devices). At high fields, the voltage drop across the deep depleted layer may cause trap assisted carrier generation resulting in leakage currents. The occurrence of GIDL is observed in the subthreshold characteristics as increase in IDsub at lower VGS.
+
+GIDL contributes to stand by power and excessive heat dissipation and, therefore, must be controlled. Adjusting the drain doping such that the band bending in the deep depletion region does not exceed the silicon bandgap and electric field in Si does not exceed the critical electric field for band-to-band tunneling can reduce GIDL. Graded or LDD drain structures can be made compatible with this requirement.
+SiGe Devices
+
+Pouya Hashemi, Takashi Ando, in High Mobility Materials for CMOS Applications, 2018
+6.2.2 SiGe Band Structure
+
+Understanding of the band structure for the SiGe system is essential for device designers to quantify the trade-offs between the performance and off-state leakage. The off-state leakage of a MOSFET can be limited by gate-induced drain leakage (GIDL) that is strongly correlated to the bandgap of the channel material at the drain side. For the relaxed SiGe system, the theoretical calculations by Braunstein et al. [20] and Weber and Alonso [21] suggest that for a Ge content below ~ 85%, the band structure is Si-like, where the valence band has degenerate states for heavy holes and light holes, while the conduction band minima are defined by sixfold Δ valleys. For a Ge content above 85%, the conduction band minima are defined by L valleys, and the band structure is Ge-like. The SiGe bandgap decreases as the Ge content is increased. Moreover, the rate of the bandgap drop by changing Ge fraction is sharply increased for Ge contents above 85%. While the bandgap change is the result of the alteration in both conduction and valence bands, it is worth mentioning that the change mostly happens in the valence band and conduction band minima to the first order track that of Si.
+
+The band structure of the SiGe is strongly impacted by the strain. Biaxial strain is shown to lift the degeneracy of the heavy holes and light holes and lower the effective mass of the heavy holes [22]. On the other hand, uniaxial strain along the transport direction can result in further band warpage and reduction of the effective mass [15,23]. The change in valence band is ~ 37 meV per 10% Ge for relaxed SiGe. On the other hand, for biaxial strained SiGe grown on Si, the theory suggests ~ 74 meV per 10% Ge [24], while the experimental results predict a larger value of ~ 87–101 meV per 10% Ge [7].
+Leakage Current
+
+Harshit Agarwal, ... Chenming Hu, in BSIM-Bulk MOSFET Model for IC Design - Digital, Analog, RF and High-voltage, 2023
+4.3.1 Gate-induced source and drain leakage model
+
+For the zero-gate voltage and VDS>0, the effective gate-to-drain voltage will be significantly high, and for VDS much lower than the breakdown voltage, a large current flows from the drain to bulk [1–3]. This drain leakage current is named gate-induced drain leakage (GIDL) since it is due to a gate-induced high electric field present in the gate-to-drain overlap region. Fig. 4.3(a) represents a simple NMOS structure, where the drain/source overlap regions have clearly illustrated. Fig. 4.3(b), on the other hand, demonstrates the zoomed picture of the drain overlap region, where the mechanism of GIDL is happening. For high negative gate-to-drain voltage, a large depletion region will be formed underneath the drain overlap region, and this leads to a high vertical field in the depletion region. When the valence band electrons tunnel into the conduction band, it results in the formation of electron-hole pairs. The above-mentioned tunneling is mainly controlled by the band-to-band tunneling (BTBT), as shown with the help of the energy band diagrams in Fig. 4.4(a) (for NMOS) and Fig. 4.4(b) (for PMOS). Fig. 4.5 clearly shows that this GIDL component leads to a vital contributor to the OFF leakage current. The GIDL current density is modeled using tunneling physics. The tunneling current density is given by [1–4]:
+Figure 4.3
+Sign in to download full-size image
+
+Figure 4.3. GIDL phenomena: (a) Conventional MOSFET structure demonstrating the source/drain overlap regions (b) Cross-section of gate-drain overlap region. Generation of leakage current between drain and bulk due to electron-hole pairs generated by tunneling of valence band electrons into the conduction band. This effect is called gate-induced drain leakage (GIDL).
+Figure 4.4
+Sign in to download full-size image
+
+Figure 4.4. Energy-band diagram along the y-direction illustrating the GIDL phenomenon (a) In NMOS Transistor (b) In PMOS Transistor.
+Figure 4.5
+Sign in to download full-size image
+
+Figure 4.5. Contributions of GIDL to the transistor's subthreshold leakage current. The position of the dip caused by GIDL will vary around VGS = 0 depending on VDS, the channel material, doping, and trap density.
+(4.1)J=A.ES.exp(−BES)
+
+where A is a pre-exponential parameter, B represents the tunneling coefficient, and ES is the transversal electric field. In the BSIM-BULK model, ES is formulated by the following expression
+(4.2)ES=VDS−VGS−VFBSD−Egϵratio.EOT
+
+Band-to-band tunneling will occur when the band bending in the drain is equal to Eg. Here VFBSD is the flat-band voltage between the gate and the drain, ϵratio is the ratio of the dielectric constant of the substrate material over that of silicon dioxide, and EOT is the equivalent oxide thickness. Eqs. (4.1) and (4.2) result in the following formulation in the BSIM-BULK model [2]
+(4.3)Igidl0=W.NF.AGIDL.(VDG−VFBSD−EGIDLϵratio.EOT)PGIDL.exp(−BGIDL.ϵratio.EOTVDG−VFBSD−EGIDL)
+
+where W and NF represent the effective width and number of fingers, respectively, and parameters A, B and Eg have been replaced by AGIDL, BGIDL and EGIDL, respectively. To further enhance the fitting flexibility of our model, the model parameter PGIDL has also been introduced [2].
+
+Similarly, the GISL current is calculated:
+(4.4)Igisl0=W.NF.AGISL.(VSG−VFBSD−EGISLϵratio.EOT)PGISL.exp(−BGISL.ϵratio.EOTVSG−VFBSD−EGISL)
+
+In addition to the Vdg dependence present, the GIDL current is also dependent on the drain to substrate voltage. The effective GIDL current is obtained multiplying (4.3) by an empirical factor as follows [2]
+(4.5)IGIDL=AGIDL⋅W⋅NF⋅Vds−Vgse−EGIDL3⋅Toxe⋅exp(−3⋅Toxe⋅BGIDLVds−Vgse−EGIDL)⋅Vdb3CGIDL+Vdb3
+(4.6)IGISL=AGISL⋅W⋅NF⋅−Vds−Vgde−EGISL3⋅Toxe⋅exp(−3⋅Toxe⋅BGISL−Vds−Vgde−EGISL)⋅Vsb3CGISL+Vsb3
+
+where, CGIDL and CGISL account for the body-bias dependence of IGIDL and IGISL, respectively.
+Scaling and Its Implications for the Integration and Design of Thin Film and Processes
+
+Krishna Seshan, in Handbook of Thin Film Deposition (Third Edition), 2012
+Appendix 5 List of Abbreviations
+
+    BEOL
+
+        back end of line metal 1 to terminal metal (metal 7 or more).
+    CMOS
+
+        complimentary metal oxide semiconductor
+    DRAM
+
+        dynamic RAM
+    DUV
+
+        deep ultraviolet source for lithography
+    FEOL
+
+        front end of line up to metal 1
+
+        field effect transistor
+    Flash
+
+        non-volatile memory using lowest power.
+    GIDL
+
+        gate induced drain leakage
+    K or k
+
+        dielectric constant
+    L and Lsubeff
+
+        channel length
+    IEDM
+
+        Int’l. Electron Device Meeting of the IEEE
+    NAND Nor and gate
+
+        a memory circuit scheme
+    NOR
+
+        Not or also a logic circuit performing logic
+
+        silicon on insulator – usually oxide. Term SOI includes SOC – silicon on carbide
+    SOC
+
+        depending on the context this is a system on a chip – a high level of integration being strived for
+    SRAM
+
+        static random access memory
+    SRC
+
+        Semiconductor Research Council
+    SRC Roadmap
+
+        An excel table maintained in public domain by the SRC to characterize various parameters in the semiconductor industry
+    Tsubox or tsubox
+
+        gate oxide thickness
+    Vsubt
+
+        threshold voltage
+
+III-V Devices and Technology for CMOS
+
+Niamh Waldron, in High Mobility Materials for CMOS Applications, 2018
+7.2.3 Leakage in Scaled Devices
+
+Controlling the off-state leakage is critical for obtaining a sharp SS across the whole device operating range and achieving a high ION. While the trend for improving device on-state performance (gmSAT and ISAT) calls for increasing the indium content of the channel, this has a trade-off in terms of the off-state leakage. As the In fraction in InxGa1 − xAs increases, the bandgap decreases (e.g., 0.74 eV for In0.53Ga0.47As vs 0.36 eV for InAs). In itself, the lower bandgap leads to a higher thermally generated off-state leakage, and the reduced effective mass of higher In-content layers can lead to increased source-to-drain off-state leakage through direct tunneling, especially in very short gate-length devices [13,64]. More troublesome, combining the smaller bandgap with the direct bandgap structure of III-Vs leads to a higher susceptibility for band-to-band tunneling (BTBT). In a realistically scaled design, the spacer width will be very narrow (5–10 nm), and the highly doped source/drain regions will be very close to the channel. When the device is biased in the off state, the high electric field at the drain will allow for a BTBT-induced gate-induced drain leakage (GIDL) current, ultimately limiting the ability to shut the transistor off [24]. BTBT in III-V devices is exacerbated by the floating-body parasitic bipolar effect (PBE) that is also observed in SOI devices [65,66], and the mechanism is described in Fig. 7.4.
+Fig. 7.4
+Sign in to download full-size image
+
+Fig. 7.4. Cartoon illustrating the effect of the increased leakage in III-V channel devices due to BTBT and the floating-body parasitic bipolar effect (PBE). (i) Band structure with no BTBT. (ii) BTBT occurs at drain. Holes are injected into the channel. (iii) The holes do not recombine and drift to the source. The potential increase causes a decrease on the source/channel barrier ϕb. (iv) The reduced ϕb results in enhanced thermal emission of electrons into the channel, and leakage increases. The effect worsens as LG becomes shorter as the parasitic bipolar gain increases.
+Based on J.Q. Lin, D.A. Antoniadis, J.A. del Alamo, Physics and mitigation of excess OFF-state current in InGaAs quantum-well MOSFETs, IEEE Trans. Electron Devices 62(5) (2015) 1448–1455.
+
+Unlike the BTBT current originally generated at the drain end of the device, the enhanced leakage current induced by the PBE is gate-length-dependent as the channel effectively mimics the base region of a bipolar device. This has the deleterious effect of multiplying the original BTBT leakage current by up to 2–3 orders of magnitude in scaled short-channel III-V devices [67,68].
+
+Efforts at mitigating the effects of BTBT have mainly focused on reducing the electric field at the drain end of the device. By introducing a lowly doped wide-bandgap spacer layer in the drain (e.g., InP), the electric field and tunneling probability can be reduced, and this approach has been demonstrated to improve off-state leakage in planar MOS-HEMT-like devices [32,69]. Thinning the channel to extremely scaled dimensions has the effect of widening the bandgap through quantization, also reducing the impact of the BTBT. Adding a wide-bandgap spacer and thinning the channel both have the effect of reducing the device ION through an increased parasitic source-drain resistance and reduced mobility through the thinner channel. These trade-offs therefore require a careful optimization of the device design [29,30]. Combining a 2.5 nm InAs channel with an undoped InGaAs spacer layer in the S/D region to reduce the electric field allowed for a demonstration of planar 25 nm nominal LG devices with an ION of 500 μA/μm at IOFF = 100 nA/μm for VDD = 0.5 V [29]. This is the standout point at an LG of 25 nm in Fig. 7.3B.
+
+While S/D engineering in such planar-like devices can help to reduce the originating GIDL that is enhanced by PBE, controlling the effects of the PBE in advanced devices with more complicated architectures such as FinFET or GAA will be more problematic. This is especially of concern for GAA devices that by their nature have no possibility for a channel/substrate connection where holes generated by GIDL can potentially recombine.
+NAND Flash technology status and perspectives
+
+Gertjan Hemink, Akira Goda, in Semiconductor Memories and Systems, 2022
+5.2.2 NAND flash array architecture
+
+Fig. 5.3A shows a top view of a small part of a NAND Flash array or more specifically, a small part of a single block in a larger NAND Flash array. Fig. 5.3B shows a cross section of a NAND string along the A–A′ line in Fig. 5.3. In a NAND string, a number of memory cells are connected in series sandwiched in between two select transistors [12]. The source-side select gate connects a selected NAND string to a common source line (shared with multiple NAND strings). The drain-side select gate connects the NAND string to a bit line which is also shared with multiple NAND strings. A specific NAND string within an array can be selected for read or write operations on one of its corresponding memory cells by applying appropriate bias voltages to the select gates of selected and non-selected NAND strings in the array. The active areas in the block are formed by the horizontal silicon stripes marked as AA that are formed in the mono-crystalline silicon substrate and the word lines are running in the vertical direction. The floating gates are positioned under the word lines and are, in the latest 2D NAND technology nodes, self-aligned with the active area lines so that a memory cell is formed at the cross point of a word line and an active area. The word lines are acting as control gates for the individual memory cells and are typically made out of polysilicon or a stack of polysilicon and metal to reduce the word line resistance. The line/space pitch of the word lines is typically equal to 2 × F, with F the minimum feature size of a given technology node. In between the active area lines, a fully self-aligned shallow trench isolation (SA-STI) is used in the most recent technology nodes as shown in the cross section of Fig. 5.3C [27]. Despite the memory cells being able to scale to ~  4F2, the effective cell size of a single memory cell is larger than 4F2 due to the presence of the source and drain side select gates, dummy word lines [28,29] and source and bit line contacts. Because of the high boosted channel potentials during write inhibit operations, these select gates have to be relatively wide (long channel) to prevent leakage of the boosted charge to the common source or bit lines. Furthermore, the high boosted channel potential can cause gate-induced drain leakage (GIDL) at the source side select gate which results in program disturbance due to hot electron injection in the memory cells on word line (WL0) next to the source side select gate [30]. To avoid the detrimental effects of the GIDL-induced program disturb, the space between the select gates and the first data word line needs to be sufficiently wide [30]. With the insertion of a dummy word line [28,29], additional flexibility is introduced by being able to apply an optimum bias voltage to the dummy word lines to minimize the impact of GIDL or minimize the GIDL itself. Since the NAND Flash operating voltages essentially do not scale, these areas occupied by the select gates and dummy word lines also do not scale significantly. To reduce the impact of these overhead areas on the effective cell size, more and more memory cells have been placed in a single NAND string, starting from 8 in the early generations [31], gradually increasing to 128 for the last technology nodes of most 2D NAND vendors [32–34] and even up to 150 in the 14 nm node of a single vendor [4].
+Fig. 5.3
+Sign in to download full-size image
+
+Fig. 5.3. (A) Top view of the layout of four NAND strings. (B) Cross section through a NAND string perpendicular to the word line direction along the A–A′ line in (A). (C) Cross section through four NAND strings in the word line direction along the B–B′ line in (A). The red box in the figure indicates the area occupied by a single NAND string.
+
+Fig. 5.4 is an equivalent circuit representation of four NAND strings within a block-oriented in a similar way as in Fig. 5.3A. It can be seen that the common source line is running in parallel with the word lines, connecting all source contacts of the individual NAND strings together to form a common source line that can be contacted at the edge of the array. The bit lines are running horizontally in parallel with the active areas, in which the NAND strings are formed, and perpendicular to the word lines. On each side of a NAND string, there is a block boundary where another set of NAND strings forms a neighbor block of NAND strings. One boundary, at the left in Fig. 5.4 is at the source side where the source contacts are shared with the source contacts of the neighboring NAND strings and the other boundary is at the drain side where the bit line contacts are shared with the neighboring NAND strings on the right-hand side in Fig. 5.4. Since all NAND strings within a block share the source select gate SGS and drain-side select gate SGD, typically, all NAND strings that form such a block are addressed at the same time during the program and read operations. To be able to program or read each cell individually, appropriate bit line biases are applied which will be discussed later in this chapter. In the latest generations of 2D and 3D NAND Flash arrays, more than 130,000 NAND strings, corresponding with a 16 kB page size, in parallel share one set of word lines to form a single block of NAND strings.
+Fig. 5.4
+Sign in to download full-size image
+
+Fig. 5.4. A schematic circuit representation of four NAND strings equivalent to the top view of Fig. 5.3A. The red-dashed box indicates the area occupied by a single NAND string with eight memory cells connected in series with one dummy memory cell in between the select gates and the memory cells on each side. A NAND Flash array (block) is formed by thousands (typically &gt;  130 k or 16 kB equivalent) of NAND strings connected in parallel on a shared set of word lines.
+
+Within a NAND array, multiple blocks can be connected to the same set of bit lines. For example, in a 24 nm 64Gb MLC 2D NAND device [35], 2 K (2048) blocks have been connected to the same set of bit lines. Such a set of blocks is commonly referred to as a plane and a single NAND device can be divided in multiple planes as is shown in Fig. 5.5. Various NAND Flash devices have varying numbers of planes to trade-off chip size vs performance. The 64Gb MLC 2D NAND device in [35] has two planes that can be operated in parallel to achieve a write throughput of 14 MB/s with 2-bit per cell operation. Another 64Gb MLC 2D NAND device in [37] has four planes and achieves a higher write throughput of 25 MB/s. To achieve the smallest possible die size, the 19 nm 64Gb device in [36,38] uses only one plane. This single plane device has very long bit lines that result in an increased bit line RC delay which requires an improved bit line pre-charging scheme and the so-called All Bit Line (ABL) architecture to maintain a similar write throughput of 15 MB/s in comparison to the previous 24 nm generation 2-plane device.
+Fig. 5.5
+Sign in to download full-size image
+
+Fig. 5.5. Two 64Gb MLC 2D NAND devices with a dual-plane conventional architecture [35] (left) and a single plane ABL architecture [36] on the right.
+© 2013 IEEE. Reprinted, with permission, from K. Kanda, et al., A 19nm 112.8 mm2 64 Gb multi-level flash memory with 400 Mbit/sec/pin 1.8V toggle mode interface, IEEE J. Solid State Circuits 48 (1) (2013) 159–167, https://doi.org/10.1109/JSSC.2012.2215094.
+Rapid Thermal Growth and Processing of Dielectrics
+
+Hisham Z. Massoud, in Rapid Thermal Processing, 1993
+C RAPID THERMAL REOXIDATION OF NITRIDED OXIDES
+
+The rapid thermal reoxidation of nitrided oxides was observed to reduce hot-carrier degradation of N-channel metal oxide semiconductor (NMOS) field-effect transistors (FETs) by several orders of magnitude because of the suppression of interface and bulk electron trap generation by hot-hole injection [122–124]. Reoxidation was also shown to reduce the enhancement in gate-induced drain leakage caused by hot-electron stress in comparison with control oxides and nitrided oxides [125].
+
+Hori et al. [126] proposed a model to explain the effects of rapid thermal reoxidation of nitrided oxides on the electrical properties of these dielectrics. This model is based on previous studies that established the role of hydrogen-containing species such as — H and —OH bonds in electron trapping [127]. They proposed that — H and —OH bonds are created during RTN as a result of the dissociation of NH3 [116] and are responsible for the large number of electron traps in nitrided oxides. Reoxidation of nitrided oxides eliminates these hydrogen-containing species via the reactions [126]
+(2)2≡Si—H+O→≡Si—O—Si≡+H2
+
+and
+(3)≡Si—H+≡Si—OH+O→≡Si—O—Si≡+H2O,
+
+which result in the reduction of electron traps in nitrided oxides while maintaining all other advantages of RTN. The findings of this model were supported by the experimental observation of the simultaneous monotonical decrease in the flat-band voltage shift induced by high-field stressing and the concentration of hydrogen measured by SIMS [126].
+
+Hori et al. [126] concluded that reoxidized nitrided oxides prepared by rapid thermal processing should be considered one of the most promising candidates to replace thermally grown convential oxides for future ultralarge-scale integration (ULSI) devices. The electrical properties of these oxides are discussed next.
+Failure Mechanisms
+
+Joseph B. Bernstein, in Reliability Prediction from Burn-In Data Fit to Reliability Models, 2014
+3.2.1 Hot Carrier Effects
+
+HCI is the second major oxide failure mechanism that occurs when the transistor electric field at the drain-to-channel depletion region is too high. This leads to the HCI effects that can change circuit timing and high-frequency performance. HCI rarely leads to catastrophic failure but the typical parameters affected are: IDsat, Gm, and Vth, weak inversion subthreshold slope and increased gate-induced drain leakage.
+
+HCI happens if the power supply voltage is higher than needed for the design, the effective channel lengths are too short, there is a poor oxide interface or poorly designed drain substrate junction, or overvoltage accidentally occurs on the power rail. The horizontal electric field in the channel gives kinetic energy to the free electrons moving from the inverted portion of the channel to the drain; when the kinetic energy is high enough, electrons strike Si atoms around the drain substrate interface, causing impact ionization. Electron-hole pairs are produced in the drain region and scattered. Some carriers go into the substrate, causing an increase in substrate current, and the small fraction has enough energy to cross the oxide barrier and cause damage. A possible mechanism is that a hot electron breaks a hydrogen silicon bond at the Si-SiO2 interface. If the Si and hydrogen recombine, then no interface trap is created. If the hydrogen diffuses away, then an interface trap is created.
+
+Once the hot carrier enters the oxide, the vertical oxide field determines how deeply the charge will go. If the drain voltage is positive with respect to the gate voltage, then holes entering the oxide near the drain are accelerated deeper into the oxide and the electrons in the same region will be retarded from living the oxide interface. Electric field in the channel restricts the damage to oxide over drain substrate depletion region, with only a small amount of damage, just outside the depletion layer [37].
+
+In submicron range electronic devices, one of the major reliability problems is hot carrier degradation. This problem is related to the continuous increase of the electrical fields in both oxide and silicon. Under the influence of the high lateral fields in short channel MOSFETs, electrons and holes in the channel and pinch off regions of the transistor can gain sufficient energy to overcome the energy barrier or tunnel into the oxide. This leads to injection of a gate current into the oxide, and subsequently to the generation of traps, both at the interface and in the oxide, and to electron and hole trapping in the oxide, which will cause changes in transconductance, threshold voltage, and drive currents of the MOSFET [38,39][38][39].
+FinFET—From device concept to standard compact model
+
+In FinFET Modeling for IC Simulation and Design, 2015
+1.7 Core and Real-Device Models
+
+All compact MOSFET models start with a “core model” that models a prototype very long-channel transistor. For the other 99.99% of the transistors used in an IC, the accuracy is achieved with numerous add-on “real-device models” as shown in Figure 1.11. With the CMOS technology aggressively scaled, the real-device effects have become the dominant, not the secondary, effects, and the real-device models determine the accuracy of circuit simulation. BSIM excels because of its accurate real-device models (see Chapter 4). For example, the output resistance used to be modeled with an empirical constant early voltage model. BSIM3 [10] introduced three separate physical mechanisms—channel length modulation, drain-induced barrier lowering, and hot-carrier-induced body bias effect. Each of these three mechanisms is modeled with a nonlinear multivariable function of channel length oxide thickness, Vt, Vds, Vgs, and Vbs. An accurate output resistance model is very important for analog circuit design, and the BSIM output conductance model was an instant success and continues to be used today.
+Sign in to download full-size image
+
+Figure 1.11. A compact model is formed from a simple (long-channel) model and numerous real-device models. The latter constitute 90% of the model and are responsible for the global accuracy.
+
+Another example is the gate-induced drain leakage (GIDL). It was introduced into BSIM3 after we had discovered this new leakage current and explained it as the band-to-band tunneling current induced by the gate-to-drain voltage [13]. Once the mechanism was clearly understood, a simple analytical model could be developed, and it proved to be very accurate for all subsequent generations of MOSFET technology.
+
+Yet another example is the flicker noise, or 1/f noise. It unified the noises due to fluctuation in the number of the channel inversion charge carriers and the fluctuation in the coulombic scattering mobility. They can be unified because both result from the capture and emission of electrons or holes by the charge traps in SiO2 near the interface [14]. We validated the model in detail using the random telegraphic noise measurements that can only be observed in transistors with such small length and width that one transistor contains only one or two observable oxide traps. These physics studies led to an accurate BSIM unified flicker noise model.
+
+Even more complex real-device models include the gate tunneling leakage model, the self-heating model, the floating body model, and the non-quasi-static model. The real-device models account for 80-90% of the model code, simulation time, and the model development effort. They are responsible for the accuracy of the compact model and the IC simulation. Many of the BSIM real-device models developed years ago are still valid for and are used in the FinFET standard compact model. These are described in Chapters 4–6Chapter 4Chapter 5Chapter 6.
+
+Moving forward, the industry is trying to introduce germanium and InGaAs as the new channel material to enhance the carrier mobility. Will the BSIM model work with these advanced channel materials? BSIM researchers have found that with appropriate adjustments in model parameter values and small but important changes in model equations, the BSIM model works very well for the advanced channel material devices. For example, Figure 1.12 shows excellent BSIM model results for germanium FinFETs when a small improvement is made to the mobility model. The changes made are discussed in more detail in [15]. Similarly, excellent model results are obtained for InGaAs FinFETs as shown in Figure 1.13 [16].
+Sign in to download full-size image
+
+Figure 1.12. Modeling germanium FinFETs with the BSIM-CMG model for devices with channel lengths L = 90, 30, and 20 nm. With small but important improvements to real-device effects models, the BSIM-CMG model works well for advanced channel materials.
+Sign in to download full-size image
+
+Figure 1.13. Transfer characteristics of an InGaAs FinFET modeled with the BSIM-CMG model shown on a semilog (left) and linear (right) scale showing the subthreshold and strong inversion region drain-current model. Experimental data are from Ref. [6].
+Related terms:
+
+    Metal-Oxide-Semiconductor Field-Effect Transistor
+    Lithography
+    Flash Memory
+    Supply Voltage
+    Model Parameter
+    Channel Device
+    Current Drain
+    Depletion Region
+    Drain Voltage
+    Gate Oxide
+
+View all Topics
+Recommended publications
+
+    Solid-State Electronics
+    Solid-State Electronics
+    Journal
+    Microelectronics Journal
+    Microelectronics Journal
+    Journal
+    Microelectronics Reliability
+    Microelectronics Reliability
+    Journal
+    Integration
+    Integration
+    Journal
+
+Elsevier logo with wordmark
+
+    About ScienceDirect
+
+Remote access
+Shopping cart
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+Cookies are used by this site.
+
+All content on this site: Copyright © 2024 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the Creative Commons licensing terms apply.
+RELX group home page
+

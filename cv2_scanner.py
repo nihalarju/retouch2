@@ -7,8 +7,8 @@ import glob
 import os
 
 # Loading an image and setting the frame size for the scanned documents
-sourcedir = r"/Volumes/termez/DocumentsMac/intel/device performance basics/0_photographs/"
-targetdir = r"/Volumes/termez/DocumentsMac/intel/device performance basics/1_scaled/"
+sourcedir = r"/Volumes/termez/0_photographs/"
+targetdir = r"/Volumes/termez/1_scaled/"
 
 frameWidth = 1800
 frameHeight = 1200
@@ -84,7 +84,8 @@ for img_path in img_paths:
         imgCanny = imageProcessing(img)
         biggest = GetContour(imgCanny)
         imgWrapped = getWarp(img, biggest)
-        img_target_path = os.path.join(targetdir, os.path.basename(img_path) )
+        basename = os.path.splitext(os.path.basename(img_path))[0]
+        img_target_path = os.path.join(targetdir, basename + '.png' )
         # print(img_path, img_target_path)
         cv2.imwrite(img_target_path, imgWrapped)
     except AssertionError:

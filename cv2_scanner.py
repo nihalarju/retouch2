@@ -7,8 +7,8 @@ import glob
 import os
 
 # Loading an image and setting the frame size for the scanned documents
-sourcedir = r"/Volumes/termez/DocumentsMac/intel/handbook/0_photographs/"
-targetdir = r"/Volumes/termez/DocumentsMac/intel/handbook/1_scaled/"
+sourcedir = r"/Volumes/termez/DocumentsMac/handbook/0_photographs/"
+targetdir = r"/Volumes/termez/DocumentsMac/handbook/1_scaled/"
 
 frameWidth = 1800
 frameHeight = 1200

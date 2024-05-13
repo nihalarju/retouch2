@@ -7,8 +7,8 @@ import glob
 import os
 
 # Loading an image and setting the frame size for the scanned documents
-sourcedir = r"/Volumes/termez/DocumentsMac/intel/1280 process front end handbook/0_photographs/"
-targetdir = r"/Volumes/termez/DocumentsMac/intel/1280 process front end handbook/1_scaled/"
+sourcedir = r"/Volumes/termez/DocumentsMac/intel/handbook/0_photographs/"
+targetdir = r"/Volumes/termez/DocumentsMac/intel/handbook/1_scaled/"
 
 frameWidth = 1800
 frameHeight = 1200
@@ -18,8 +18,9 @@ frameHeight = 1200
 def imageProcessing(img):
     imgGray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     imgBlur = cv2.GaussianBlur(imgGray,(5,5),1)
-    imgCanny = cv2.Canny(imgBlur,5,5)
-    return imgCanny
+    # imgCanny = cv2.Canny(imgBlur,5,5)
+    _,threshold = cv2.threshold(imgBlur, 128, 255, cv2.THRESH_BINARY)
+    return threshold
 
 
 #Getting the boundaries of the document

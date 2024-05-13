@@ -7,8 +7,8 @@ import glob
 import os
 
 # Loading an image and setting the frame size for the scanned documents
-sourcedir = r"/Volumes/termez/DocumentsMac/handbook/0_photographs/"
-targetdir = r"/Volumes/termez/DocumentsMac/handbook/1_scaled/"
+sourcedir = r"/Volumes/termez/DocumentsMac/intel/device performance basics/0_photographs/"
+targetdir = r"/Volumes/termez/DocumentsMac/intel/device performance basics/1_scaled/"
 
 frameWidth = 1800
 frameHeight = 1200
@@ -80,7 +80,7 @@ for img_path in img_paths:
     try:
         img = cv2.imread(img_path)
         img = cv2.resize(img,(frameWidth,frameHeight))
-        img = img[margin:-int(3*margin), margin:-3*margin]
+        # img = img[margin:-int(3*margin), margin:-3*margin]
         imgCanny = imageProcessing(img)
         biggest = GetContour(imgCanny)
         imgWrapped = getWarp(img, biggest)
